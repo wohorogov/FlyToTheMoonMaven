@@ -16,12 +16,11 @@ public class Flying {
 
     private static final double FINAL_COORDINATE = 350_000;
     public void startFly(Rocket rocket) {
-        boolean stop = false;
         int numRocketStage = 0;
         RocketStage rocketStage = rocket.getNextRocketStage(numRocketStage);
         int time = Math.min(rocketStage.getRemainingTime(), 10);
 
-        while (!stop) {
+        while (rocket.getRocketStageCount() > 0) {
             double allMass = rocket.getAllMass();
             double coordinate = rocket.getCoordinate();
             

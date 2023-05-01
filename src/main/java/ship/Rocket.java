@@ -1,20 +1,22 @@
 package ship;
 
+import lombok.Builder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
+@Builder
 public class Rocket {
 
     private double coordinate = 0;
     private double speed;
     private double totalMass;
     private int rocketStageCount;
-    Map<Integer, RocketStage> rocketStage = new HashMap();
+    Map<int, RocketStage> rocketStage = new HashMap();
     RocketStage brake;
 
 
-    public Rocket(Map<Integer, RocketStage> rocketStages, RocketBrakeStage rocketBrakeStage) {
+    public Rocket(Map<int, RocketStage> rocketStages, RocketBrakeStage rocketBrakeStage) {
         this.rocketStage = rocketStages;
         this.brake = rocketBrakeStage;
     }
@@ -23,7 +25,7 @@ public class Rocket {
         super();
     }
 
-    public Rocket(Map<Integer, RocketStage> rocketStages) {
+    public Rocket(Map<int, RocketStage> rocketStages) {
         this.rocketStage = rocketStages;
     }
     public double getAllMass() {

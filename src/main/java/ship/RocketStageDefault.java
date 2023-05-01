@@ -1,5 +1,8 @@
 package ship;
 
+import lombok.Builder;
+
+@Builder
 public class RocketStageDefault implements RocketStage {
     private static int seq = 1;
     private double num;
