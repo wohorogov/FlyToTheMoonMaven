@@ -1,9 +1,12 @@
 package ship;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class RocketBrakeStage implements RocketStage {
+    private static String OK = "OK";
     private double mass;
     private double fuelMass;
     private double speedGas;
@@ -42,5 +45,20 @@ public class RocketBrakeStage implements RocketStage {
     @Override
     public void minusTime(double minusTime) {
 
+    }
+
+    public String test() {
+        if (mass > 0 && fuelMass > 0 && remainingTime > 0 && fuelConsumptionSpeed > 0)
+            return OK;
+        else if (mass <= 0) {
+            return "Масса тормозного блока не может быть меньше 0.";
+        } else if (fuelMass <= 0) {
+            return "тормозной блок не может быть незаправленным.";
+        } else if (remainingTime <= 0) {
+            return "Время полета тормозного блока не может быть меньше или равно 0.";
+        } else if (fuelConsumptionSpeed <= 0) {
+            return "Скорость расхода топлива тормозного блока не может быть меньше или равно 0.";
+        }
+        else return "Произошли ошибки при тестировании тормозного блока";
     }
 }

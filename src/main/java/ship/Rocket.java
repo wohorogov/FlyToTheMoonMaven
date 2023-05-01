@@ -21,10 +21,6 @@ public class Rocket {
         this.brake = rocketBrakeStage;
     }
 
-    public Rocket() {
-        super();
-    }
-
     public Rocket(Map<Integer, RocketStage> rocketStages) {
         this.rocketStage = rocketStages;
     }
@@ -70,6 +66,15 @@ public class Rocket {
         this.brake = rocketStage;
     }
     public String test() {
-        return "";
+        String result = null;
+        for (RocketStage val : this.rocketStage.values()) {
+            String stageTest = val.test();
+            if (!stageTest.equals("OK")) {
+                result += stageTest;
+            }
+        }
+        if (result.isEmpty())
+            return "OK";
+        else return result;
     }
 }

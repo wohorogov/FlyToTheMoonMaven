@@ -1,5 +1,6 @@
 package port;
 
+import fly.Flying;
 import ship.Rocket;
 
 public class SpacePort implements Port {
@@ -21,6 +22,8 @@ public class SpacePort implements Port {
             @Override
             public void run() {
                 System.out.println("Мы в потоке");
+                Flying flying = new Flying();
+                flying.startFly(rocket);
             }
         };
         Thread thread = new Thread(runnable);

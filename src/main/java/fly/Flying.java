@@ -32,6 +32,7 @@ public class Flying {
             coordinate += (boostNow * Math.pow(time, 2)) / 2;
             rocket.setCoordinate(coordinate);
             rocketStage.minusTime(time);
+            System.out.println("Координата = " + rocket.getCoordinate() + ", масса - "  + rocket.getAllMass() + ", время" + rocketStage.getRemainingTime());
 
             if (rocket.getCoordinate() >= FINAL_COORDINATE)
                 System.out.println("Ракета разбилась");
