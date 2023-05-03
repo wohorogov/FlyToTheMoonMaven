@@ -5,13 +5,12 @@ import lombok.Builder;
 @Builder
 public class RocketStageDefault implements RocketStage {
     private static String OK = "OK";
-    private static int seq = 1;
-    private double num;
     private double mass;
     private double fuelMass;
     private double speedGas;
     private int remainingTime;
     private double fuelConsumptionSpeed;
+    private int num;
 
     @Override
     public double getSpeedGas() {
@@ -23,15 +22,24 @@ public class RocketStageDefault implements RocketStage {
         return fuelConsumptionSpeed;
     }
 
-    public RocketStageDefault(Rocket rocket, double mass, double fuelMass, int remainingTime, double speedGas, double fuelConsumptionSpeed) {
-        this.num = seq++;
+    public RocketStageDefault(double mass, double fuelMass, double speedGas, int remainingTime, double fuelConsumptionSpeed, int num) {
+        this.num = num;
         this.mass = mass;
-        this.speedGas = speedGas;
         this.fuelMass = fuelMass;
+        this.speedGas = speedGas;
         this.remainingTime = remainingTime;
         this.fuelConsumptionSpeed = fuelConsumptionSpeed;
-        rocket.addRocketStage(this);
     }
+
+//    public RocketStageDefault(Rocket rocket, double mass, double fuelMass, int remainingTime, double speedGas, double fuelConsumptionSpeed) {
+//        this.num = seq++;
+//        this.mass = mass;
+//        this.speedGas = speedGas;
+//        this.fuelMass = fuelMass;
+//        this.remainingTime = remainingTime;
+//        this.fuelConsumptionSpeed = fuelConsumptionSpeed;
+//        rocket.addRocketStage(this);
+//    }
 
     @Override
     public double getAllMass() {

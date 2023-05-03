@@ -23,6 +23,14 @@ public class RocketBrakeStage implements RocketStage {
         rocket.addBrakeRocketStage(this);
     }
 
+    public RocketBrakeStage(double mass, double fuelMass, double speedGas, double fuelConsumptionSpeed, int remainingTime) {
+        this.mass = mass;
+        this.fuelMass = fuelMass;
+        this.speedGas = speedGas;
+        this.fuelConsumptionSpeed = fuelConsumptionSpeed;
+        this.remainingTime = remainingTime;
+    }
+
     public double getAllMass() {
         return this.mass + this.fuelMass;
     }

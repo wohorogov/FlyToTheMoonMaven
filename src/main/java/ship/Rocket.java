@@ -8,21 +8,20 @@ import java.util.Map;
 @Builder
 public class Rocket {
 
-    private double coordinate = 0;
-    private double speed;
-    private double totalMass;
-    private int rocketStageCount;
+    private double coordinate;
     Map<Integer, RocketStage> rocketStage = new HashMap();
     RocketStage brake;
 
 
-    public Rocket(Map<Integer, RocketStage> rocketStages, RocketBrakeStage rocketBrakeStage) {
+    public Rocket(double coordinate, Map<Integer, RocketStage> rocketStages, RocketStage rocketBrakeStage) {
         this.rocketStage = rocketStages;
         this.brake = rocketBrakeStage;
+        this.coordinate = 0;
     }
 
     public Rocket(Map<Integer, RocketStage> rocketStages) {
         this.rocketStage = rocketStages;
+        this.coordinate = 0;
     }
     public double getAllMass() {
         double sum = 0;
@@ -54,13 +53,11 @@ public class Rocket {
         rocketStage.remove(num);
     }
     public void addRocketStage(RocketStage rocketStage) {
-        this.rocketStageCount = this.rocketStage.size();
-        this.rocketStage.put(rocketStageCount, rocketStage);
-        this.rocketStageCount++;
+        this.rocketStage.put(this.rocketStage.size(), rocketStage);
     }
 
     public int getRocketStageCount() {
-        return rocketStageCount;
+        return this.rocketStage.size();
     }
     public void addBrakeRocketStage(RocketStage rocketStage) {
         this.brake = rocketStage;
