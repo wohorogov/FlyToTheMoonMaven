@@ -2,27 +2,37 @@ package ship;
 
 import lombok.Builder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 @Builder
 public class Rocket {
 
     private double coordinate;
+    private double speed;
     Map<Integer, RocketStage> rocketStage = new HashMap();
-    RocketStage brake;
+    SpaceCraft spaceCraft;
 
 
-    public Rocket(double coordinate, Map<Integer, RocketStage> rocketStages, RocketStage rocketBrakeStage) {
+    public Rocket(double coordinate, double speed, Map<Integer, RocketStage> rocketStages, SpaceCraft spaceCraft) {
         this.rocketStage = rocketStages;
-        this.brake = rocketBrakeStage;
-        this.coordinate = 0;
+        this.spaceCraft = spaceCraft;
+        this.coordinate = coordinate;
+        this.speed = speed;
+    }
+
+    public double getSpeed() {
+        return speed;
     }
 
     public Rocket(Map<Integer, RocketStage> rocketStages) {
         this.rocketStage = rocketStages;
         this.coordinate = 0;
     }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
     public double getAllMass() {
         double sum = 0;
         for (RocketStage val : this.rocketStage.values()) {
@@ -30,7 +40,7 @@ public class Rocket {
         }
 //        this.rocketStage.forEach((key, value) -> sum += value.getAllMass());
 
-        sum += this.brake.getAllMass();
+        sum += this.spaceCraft.getAllMass();
 
         return sum;
     }
@@ -59,8 +69,8 @@ public class Rocket {
     public int getRocketStageCount() {
         return this.rocketStage.size();
     }
-    public void addBrakeRocketStage(RocketStage rocketStage) {
-        this.brake = rocketStage;
+    public void addSpaceCraft(SpaceCraft spaceCraft) {
+        this.spaceCraft = spaceCraft;
     }
     public String test() {
         String result = null;
@@ -70,7 +80,7 @@ public class Rocket {
                 result += stageTest;
             }
         }
-        if (result.isEmpty())
+        if (result == null)
             return "OK";
         else return result;
     }

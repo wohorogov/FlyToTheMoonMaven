@@ -49,12 +49,15 @@ public class RocketStageDefault implements RocketStage {
     @Override
     public void minusTime(double minusTime) {
         this.remainingTime -= minusTime;
+        burningGas(minusTime);
     }
 
     @Override
     public String test() {
-        if (mass > 0 && fuelMass > 0 && remainingTime > 0 && fuelConsumptionSpeed > 0)
+        if (mass > 0 && fuelMass > 0 && remainingTime > 0 && fuelConsumptionSpeed > 0) {
+            System.out.println("Тест ступение ракеты №" + num + " выполнен успешно.");
             return OK;
+        }
         else if (mass <= 0) {
             return "Масса ступени ракеты №" + num + "  не может быть меньше 0.";
         } else if (fuelMass <= 0) {
@@ -70,5 +73,8 @@ public class RocketStageDefault implements RocketStage {
     @Override
     public int getRemainingTime() {
         return remainingTime;
+    }
+    public void burningGas(double time) {
+        this.fuelMass -= this.fuelConsumptionSpeed * time;
     }
 }

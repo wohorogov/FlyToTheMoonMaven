@@ -20,7 +20,6 @@ public class RocketBrakeStage implements RocketStage {
         this.speedGas = speedGas;
         this.fuelConsumptionSpeed = fuelConsumptionSpeed;
         this.remainingTime = remainingTime;
-        rocket.addBrakeRocketStage(this);
     }
 
     public RocketBrakeStage(double mass, double fuelMass, double speedGas, double fuelConsumptionSpeed, int remainingTime) {
