@@ -72,7 +72,7 @@ public class RocketStageDefault implements RocketStage {
 
     @Override
     public int getRemainingTime() {
-        return remainingTime;
+        return (int) (fuelMass / fuelConsumptionSpeed);
     }
     public void burningGas(double time) {
         this.fuelMass -= this.fuelConsumptionSpeed * time;

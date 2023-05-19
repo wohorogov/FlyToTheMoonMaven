@@ -7,16 +7,16 @@ import java.util.Map;
 @Builder
 public class Rocket {
 
-    private double coordinate;
+    private double distance;
     private double speed;
     Map<Integer, RocketStage> rocketStage = new HashMap();
     SpaceCraft spaceCraft;
 
 
-    public Rocket(double coordinate, double speed, Map<Integer, RocketStage> rocketStages, SpaceCraft spaceCraft) {
+    public Rocket(double distance, double speed, Map<Integer, RocketStage> rocketStages, SpaceCraft spaceCraft) {
         this.rocketStage = rocketStages;
         this.spaceCraft = spaceCraft;
-        this.coordinate = coordinate;
+        this.distance = distance;
         this.speed = speed;
     }
 
@@ -26,7 +26,7 @@ public class Rocket {
 
     public Rocket(Map<Integer, RocketStage> rocketStages) {
         this.rocketStage = rocketStages;
-        this.coordinate = 0;
+        this.distance = 0;
     }
 
     public void setSpeed(double speed) {
@@ -52,12 +52,12 @@ public class Rocket {
         else return null;
     }
 
-    public double getCoordinate() {
-        return coordinate;
+    public double getDistance() {
+        return distance;
     }
 
-    public void setCoordinate(double coordinate) {
-        this.coordinate = coordinate;
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
     public void deleteRocketStage(int num) {
         rocketStage.remove(num);

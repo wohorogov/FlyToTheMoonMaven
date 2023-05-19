@@ -14,9 +14,9 @@ public class StartProject {
             put(1, RocketStageDefault.builder()
                     .mass(30_000)
                     .fuelMass(430_000)
-                    .speedGas(2800)
                     .remainingTime(120)
                     .fuelConsumptionSpeed(3600)
+                    .speedGas(8000)
                     .num(1)
                     .build());
             put(2, RocketStageDefault.builder()
@@ -24,7 +24,7 @@ public class StartProject {
                     .fuelMass(167_000)
                     .remainingTime(211)
                     .fuelConsumptionSpeed(800)
-                    .speedGas(3000)
+                    .speedGas(4000)
                     .num(2)
                     .build());
             put(3, RocketStageDefault.builder()
@@ -32,7 +32,7 @@ public class StartProject {
                     .fuelMass(43_000)
                     .remainingTime(240)
                     .fuelConsumptionSpeed(180)
-                    .speedGas(3.25)
+                    .speedGas(3250)
                     .num(3)
                     .build());
         }};
@@ -55,7 +55,7 @@ public class StartProject {
         //Сборка ракеты
         Rocket rocket = Rocket.builder()
                 .rocketStage(rocketStageMap)
-                .coordinate(0)
+                .distance(0)
                 .speed(0)
                 .spaceCraft(spaceCraft)
                 .build();
