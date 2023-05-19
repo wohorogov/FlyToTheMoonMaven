@@ -12,7 +12,7 @@ public class SpacePort implements Port {
     }
 
     @Override
-    public String test() {
+    public boolean test() {
         return rocket.test();
     }
 

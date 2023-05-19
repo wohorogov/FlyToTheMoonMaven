@@ -7,8 +7,9 @@ import ship.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestApp {
+public class StartProject {
     public void action() {
+        //ступени ракеты
         Map<Integer, RocketStage> rocketStageMap = new HashMap() {{
             put(1, RocketStageDefault.builder()
                     .mass(30_000)
@@ -35,50 +36,23 @@ public class TestApp {
                     .num(3)
                     .build());
         }};
-
+        //Тормозной блок
         RocketStage rocketBrakeStage = RocketBrakeStage.builder()
                 .mass(300)
                 .fuelMass(300)
                 .fuelConsumptionSpeed(30)
                 .speedGas(3000)
                 .build();
+
+        //Луноход
+        MoonWalker moonWalker = new MoonWalkerDefault(180);
+        //Космический аппарат с тормозным блоком и луноходом
         SpaceCraft spaceCraft = SpaceCraft.builder()
                 .brakeStage((RocketBrakeStage) rocketBrakeStage)
-                .moonWalker(new MoonWalker() {
-
-                    double mass = 180;
-                    @Override
-                    public void moveForward() {
-                        System.out.println("Шаг вперед");
-                    }
-
-                    @Override
-                    public void moveBack() {
-                        System.out.println("Шаг назад");
-                    }
-
-                    @Override
-                    public void turnLeft() {
-                        System.out.println("Шаг влево");
-                    }
-
-                    @Override
-                    public void turnRight() {
-                        System.out.println("Шаг вправо");
-                    }
-
-                    @Override
-                    public void takeShot() {
-                        System.out.println("Снимок сделан");
-                    }
-
-                    @Override
-                    public double getMass() {
-                        return mass;
-                    }
-                })
+                .moonWalker(moonWalker)
                 .build();
 
+        //Сборка ракеты
         Rocket rocket = Rocket.builder()
                 .rocketStage(rocketStageMap)
                 .coordinate(0)
@@ -89,23 +63,8 @@ public class TestApp {
         Port port = new SpacePort();
         port.mount(rocket);
 
-        //тест ракеты
-//        switch (System.in) {
-//            case 1: String testResult = port.test();
-//                    break;
-//            case 2:
-//        }
-        String testResult = port.test();
-        if (testResult == "OK") {
-            System.out.println("Тест ракеты прошел успешно. Осуществляется запуск ракеты.");
+        if (port.test()) {
             port.launch();
         }
-//        if (testResult == "OK") {
-//            System.out.println("Тестирование ракеты прошло успешно. Выполняется запуск ракеты.");
-//            port.launch();
-//        } else
-//            System.out.println(testResult);
-
-
     }
 }

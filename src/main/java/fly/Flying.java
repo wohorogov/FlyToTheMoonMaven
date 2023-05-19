@@ -19,7 +19,7 @@ public class Flying {
     public void startFly(Rocket rocket) {
         int numRocketStage = 1;
         RocketStage rocketStage = rocket.getNextRocketStage(numRocketStage);
-        int time = Math.min(rocketStage.getRemainingTime(), 10);
+        int time = Math.min(rocketStage.getRemainingTime(), 1);
 
         while (rocket.getRocketStageCount() > 0) {
             double allMass = rocket.getAllMass();
@@ -35,24 +35,31 @@ public class Flying {
             if (coordinate < 0) {
                 coordinate = 0;
             }
-            System.out.println(coordinate);
+
             rocket.setCoordinate(coordinate);
+            rocket.setSpeed(rocket.getSpeed() + boostNow * time);
             rocketStage.minusTime(time);
-            System.out.println("Координата = " + rocket.getCoordinate() + ", масса - " +
-                    rocket.getAllMass() + ", время" + rocketStage.getRemainingTime());
+
+            System.out.println("Земля " + forceOfGravitationEarth);
+            System.out.println("Луна " + forceOfGravitationMoon);
+            System.out.println("УСкорение " + boostNow);
+            System.out.println("Реактивная сила " + reactivePower);
+
+            System.out.println("Координата = " + rocket.getCoordinate() + ", масса = " +
+                    rocket.getAllMass() + ", время = " + rocketStage.getRemainingTime());
 
             if (rocket.getCoordinate() >= FINAL_COORDINATE) {
                 System.out.println("Ракета разбилась");
                 return;
             }
             else {
-                time = Math.min(rocketStage.getRemainingTime(), 10);
+                time = Math.min(rocketStage.getRemainingTime(), 1);
 
                 if (time == 0) {
                     rocket.deleteRocketStage(numRocketStage);
                     numRocketStage++;
                     rocketStage = rocket.getNextRocketStage(numRocketStage);
-                    time = Math.min(rocketStage.getRemainingTime(), 10);
+                    time = Math.min(rocketStage.getRemainingTime(), 1);
                 }
             }
         }

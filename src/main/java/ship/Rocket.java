@@ -72,7 +72,7 @@ public class Rocket {
     public void addSpaceCraft(SpaceCraft spaceCraft) {
         this.spaceCraft = spaceCraft;
     }
-    public String test() {
+    public boolean test() {
         String result = null;
         for (RocketStage val : this.rocketStage.values()) {
             String stageTest = val.test();
@@ -80,8 +80,14 @@ public class Rocket {
                 result += stageTest;
             }
         }
-        if (result == null)
-            return "OK";
-        else return result;
+        if (result == null) {
+            System.out.println("Тестирование ракеты выполнено успешно. Можно производить запуск.");
+            return true;
+        }
+        else {
+            System.out.println("Тестирование ракеты выполнено с ошибками.");
+            System.out.println(result);
+            return false;
+        }
     }
 }
