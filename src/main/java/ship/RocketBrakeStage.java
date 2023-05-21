@@ -50,8 +50,8 @@ public class RocketBrakeStage implements RocketStage {
     }
 
     @Override
-    public void minusTime(double minusTime) {
-
+    public void burningGas(double time) {
+        fuelMass -= fuelConsumptionSpeed * time;
     }
 
     public String test() {

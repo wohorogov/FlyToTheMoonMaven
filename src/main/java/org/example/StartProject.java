@@ -13,18 +13,18 @@ public class StartProject {
         Map<Integer, RocketStage> rocketStageMap = new HashMap() {{
             put(1, RocketStageDefault.builder()
                     .mass(30_000)
-                    .fuelMass(430_000)
+                    .fuelMass(530_000)
                     .remainingTime(120)
                     .fuelConsumptionSpeed(3600)
-                    .speedGas(8000)
+                    .speedGas(15000)
                     .num(1)
                     .build());
             put(2, RocketStageDefault.builder()
                     .mass(11_000)
-                    .fuelMass(167_000)
+                    .fuelMass(67_000)
                     .remainingTime(211)
                     .fuelConsumptionSpeed(800)
-                    .speedGas(4000)
+                    .speedGas(15000)
                     .num(2)
                     .build());
             put(3, RocketStageDefault.builder()

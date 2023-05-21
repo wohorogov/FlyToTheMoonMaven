@@ -5,6 +5,6 @@ public interface RocketStage {
     int getRemainingTime();
     double getSpeedGas();
     double getFuelConsumptionSpeed();
-    void minusTime(double minusTime);
+    void burningGas(double minusTime);
     String test();
 }
