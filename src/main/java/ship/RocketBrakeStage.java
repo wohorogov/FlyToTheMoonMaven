@@ -31,22 +31,22 @@ public class RocketBrakeStage implements RocketStage {
     }
 
     public double getAllMass() {
-        return this.mass + this.fuelMass;
+        return mass + fuelMass;
     }
 
     @Override
     public int getRemainingTime() {
-        return this.remainingTime;
+        return (int) (fuelMass / fuelConsumptionSpeed);
     }
 
     @Override
     public double getSpeedGas() {
-        return 0;
+        return speedGas;
     }
 
     @Override
     public double getFuelConsumptionSpeed() {
-        return 0;
+        return fuelConsumptionSpeed;
     }
 
     @Override

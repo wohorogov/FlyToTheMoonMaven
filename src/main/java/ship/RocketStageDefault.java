@@ -43,7 +43,7 @@ public class RocketStageDefault implements RocketStage {
 
     @Override
     public double getAllMass() {
-        return this.mass + this.fuelMass;
+        return mass + fuelMass;
     }
 
     @Override
@@ -70,6 +70,6 @@ public class RocketStageDefault implements RocketStage {
     }
     @Override
     public void burningGas(double time) {
-        this.fuelMass -= this.fuelConsumptionSpeed * time;
+        fuelMass -= fuelConsumptionSpeed * time;
     }
 }

@@ -20,6 +20,10 @@ public class Rocket {
         this.speed = speed;
     }
 
+    public SpaceCraft getSpaceCraft() {
+        return spaceCraft;
+    }
+
     public double getSpeed() {
         return speed;
     }

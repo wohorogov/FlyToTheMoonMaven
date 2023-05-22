@@ -12,6 +12,14 @@ public class SpaceCraft {
         this.brakeStage = brakeStage;
     }
 
+    public MoonWalker getMoonWalker() {
+        return moonWalker;
+    }
+
+    public RocketBrakeStage getBrakeStage() {
+        return brakeStage;
+    }
+
     public double getAllMass() {
         return brakeStage.getAllMass() + moonWalker.getMass();
     }
