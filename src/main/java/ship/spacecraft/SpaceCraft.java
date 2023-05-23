@@ -1,4 +1,4 @@
-package ship;
+package ship.spacecraft;
 
 import lombok.Builder;
 

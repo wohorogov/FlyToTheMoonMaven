@@ -1,7 +1,7 @@
 package fly;
 
 import ship.Rocket;
-import ship.RocketStage;
+import ship.stages.RocketStage;
 
 public class Flying {
     private static final int MIN_TIME = 1;

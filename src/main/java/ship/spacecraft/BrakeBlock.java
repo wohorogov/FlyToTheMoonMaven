@@ -1,4 +1,4 @@
-package ship;
+package ship.spacecraft;
 
 public interface BrakeBlock {
 

@@ -1,6 +1,8 @@
 package ship;
 
 import lombok.Builder;
+import ship.spacecraft.SpaceCraft;
+import ship.stages.RocketStage;
 
 import java.util.HashMap;
 import java.util.Map;

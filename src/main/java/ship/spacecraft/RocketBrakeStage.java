@@ -1,7 +1,9 @@
-package ship;
+package ship.spacecraft;
 
 import lombok.Builder;
 import lombok.Data;
+import ship.Rocket;
+import ship.stages.RocketStage;
 
 @Data
 @Builder

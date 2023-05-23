@@ -1,6 +1,7 @@
-package ship;
+package ship.stages;
 
 import lombok.Builder;
+import ship.stages.RocketStage;
 
 @Builder
 public class RocketStageDefault implements RocketStage {

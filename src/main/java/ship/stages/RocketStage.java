@@ -1,4 +1,4 @@
-package ship;
+package ship.stages;
 
 public interface RocketStage {
     double getAllMass();

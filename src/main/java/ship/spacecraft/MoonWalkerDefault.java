@@ -1,6 +1,8 @@
-package ship;
+package ship.spacecraft;
 
-public class MoonWalkerDefault implements MoonWalker{
+import ship.spacecraft.MoonWalker;
+
+public class MoonWalkerDefault implements MoonWalker {
     double mass;
 
     public MoonWalkerDefault(double mass) {

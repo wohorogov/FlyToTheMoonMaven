@@ -3,6 +3,12 @@ package org.example;
 import port.Port;
 import port.SpacePort;
 import ship.*;
+import ship.spacecraft.MoonWalker;
+import ship.spacecraft.MoonWalkerDefault;
+import ship.spacecraft.RocketBrakeStage;
+import ship.spacecraft.SpaceCraft;
+import ship.stages.RocketStage;
+import ship.stages.RocketStageDefault;
 
 import java.util.HashMap;
 import java.util.Map;
