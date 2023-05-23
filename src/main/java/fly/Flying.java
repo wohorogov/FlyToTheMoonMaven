@@ -34,19 +34,16 @@ public class Flying {
         int time = Math.min(rocketStage.getRemainingTime(), MIN_TIME);
         int num_iter = 0;
 
-        double distance = 0;
+        double distance;
 
         while (rocketOperable) {
             num_iter++;
-            distance += getDistance(rocket, rocketStage, time);
+            distance = calcDistance(rocket, rocketStage, time);
 
-            if (distance < 0 && num_iter < 5) {
-                rocketOperable = false;
-                System.out.println("Ракета не может взлететь!");
-            } else if (distance < 0 && num_iter > 5) {
-                rocketOperable = false;
-                System.out.println("Ракета упала  на Землю!");
-            }
+            if (num_iter < 5)
+                checkStartFlying(distance);
+            else checkDown(distance);
+
 
             if (startBrake && rocket.getSpeed() <= 30) {
                 startBrake = false;
@@ -54,6 +51,7 @@ public class Flying {
                 rightLanding = true;
                 System.out.println("Ракета вышла на правильную скорость для посадки");
             }
+
             if (distance >= START_BRAKE_DISTANCE && !startBrake && !endBrake) {
                 startBrake = true;
                 fuelIsEmpty = true;
@@ -97,32 +95,6 @@ public class Flying {
                 }
             }
         }
-/*
-        while (rocketOperable && !startBrake) {
-            num_iter++;
-            double allMass = rocket.getAllMass();
-            double distance = rocket.getDistance();
-
-            double forceOfGravitationEarth = getEarthGravitation(allMass, distance);
-            double forceOfGravitationMoon = getMoonGravitation(allMass, distance);
-            double reactivePower = 0;
-
-            double boostNow = (forceOfGravitationMoon - forceOfGravitationEarth + reactivePower) / allMass;
-
-            distance += rocket.getSpeed() * time + (boostNow * Math.pow(time, 2)) / 2;
-
-            if (distance < 0 && num_iter < 5) {
-                System.out.println("Ракета упала на Землю!");
-                return;
-            }
-
-            rocket.setDistance(distance);
-            rocket.setSpeed(rocket.getSpeed() + boostNow * time);
-        }
-
-        while (rocketOperable && startBrake) {
-
-        }*/
 
         System.out.println(num_iter);
         System.out.println("Полет завершен");
@@ -140,7 +112,7 @@ public class Flying {
         return rocketStage.getSpeedGas() * rocketStage.getFuelConsumptionSpeed();
     }
 
-    public double getDistance(Rocket rocket, RocketStage rocketStage, int time) {
+    public double calcDistance(Rocket rocket, RocketStage rocketStage, int time) {
         double allMass = rocket.getAllMass();
         double distance = rocket.getDistance();
 
@@ -158,11 +130,28 @@ public class Flying {
         if (!fuelIsEmpty || startBrake)
             rocketStage.burningGas(time);
 
+        print_info(rocket, forceOfGravitationEarth, forceOfGravitationMoon, reactivePower, boostNow);
+
+        return distance;
+    }
+
+    private void checkStartFlying(double distance) {
+        if (distance < 0) {
+            rocketOperable = false;
+            System.out.println("Ракета не может взлететь!");
+        }
+    }
+
+    private void checkDown(double distance) {
+        if (distance < 0) {
+            rocketOperable = false;
+            System.out.println("Ракета упала  на Землю!");
+        }
+    }
+    private void print_info(Rocket rocket, double forceOfGravitationEarth, double forceOfGravitationMoon, double reactivePower, double boostNow) {
         System.out.println("Координата = " + rocket.getDistance() + ", масса = " +
                 rocket.getAllMass() + ", сила земли " + forceOfGravitationEarth + ", сила луны " + forceOfGravitationMoon + ", реактивная сила " + reactivePower
                 + ", усорение " + boostNow + ", скорость " + rocket.getSpeed());
-
-        return distance;
     }
 
 }
