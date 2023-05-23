@@ -1,7 +1,7 @@
 package message;
 
 public class MessageService {
-    private enum status
+//    private enum status
     private String message;
     private boolean getMessage = false;
 
@@ -25,13 +25,4 @@ public class MessageService {
 
         notify();
     }
-}
-
-enum status {
-    PRED_START,
-    START,
-    FLYING_WITH_ENGINE,
-    FLYING_WITHOUT_ENGINE,
-    STOPPING,
-    STOP
 }
