@@ -1,31 +1,42 @@
 package ship;
 
-import java.util.ArrayList;
+import lombok.Builder;
+
 import java.util.HashMap;
 import java.util.Map;
-
+@Builder
 public class Rocket {
 
-    private double coordinate = 0;
+    private double distance;
     private double speed;
-    private double totalMass;
-    private int rocketStageCount;
     Map<Integer, RocketStage> rocketStage = new HashMap();
-    RocketStage brake;
+    SpaceCraft spaceCraft;
 
 
-    public Rocket(Map<Integer, RocketStage> rocketStages, RocketBrakeStage rocketBrakeStage) {
+    public Rocket(double distance, double speed, Map<Integer, RocketStage> rocketStages, SpaceCraft spaceCraft) {
         this.rocketStage = rocketStages;
-        this.brake = rocketBrakeStage;
+        this.spaceCraft = spaceCraft;
+        this.distance = distance;
+        this.speed = speed;
     }
 
-    public Rocket() {
-        super();
+    public SpaceCraft getSpaceCraft() {
+        return spaceCraft;
+    }
+
+    public double getSpeed() {
+        return speed;
     }
 
     public Rocket(Map<Integer, RocketStage> rocketStages) {
         this.rocketStage = rocketStages;
+        this.distance = 0;
     }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
     public double getAllMass() {
         double sum = 0;
         for (RocketStage val : this.rocketStage.values()) {
@@ -33,7 +44,7 @@ public class Rocket {
         }
 //        this.rocketStage.forEach((key, value) -> sum += value.getAllMass());
 
-        sum += this.brake.getAllMass();
+        sum += this.spaceCraft.getAllMass();
 
         return sum;
     }
@@ -45,26 +56,42 @@ public class Rocket {
         else return null;
     }
 
-    public double getCoordinate() {
-        return coordinate;
+    public double getDistance() {
+        return distance;
     }
 
-    public void setCoordinate(double coordinate) {
-        this.coordinate = coordinate;
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
     public void deleteRocketStage(int num) {
         rocketStage.remove(num);
     }
     public void addRocketStage(RocketStage rocketStage) {
-        this.rocketStageCount = this.rocketStage.size();
-        this.rocketStage.put(rocketStageCount, rocketStage);
-        this.rocketStageCount++;
+        this.rocketStage.put(this.rocketStage.size(), rocketStage);
     }
 
     public int getRocketStageCount() {
-        return rocketStageCount;
+        return this.rocketStage.size();
     }
-    public void addBrakeRocketStage(RocketStage rocketStage) {
-        this.brake = rocketStage;
+    public void addSpaceCraft(SpaceCraft spaceCraft) {
+        this.spaceCraft = spaceCraft;
+    }
+    public boolean test() {
+        String result = null;
+        for (RocketStage val : this.rocketStage.values()) {
+            String stageTest = val.test();
+            if (!stageTest.equals("OK")) {
+                result += stageTest;
+            }
+        }
+        if (result == null) {
+            System.out.println("Тестирование ракеты выполнено успешно. Можно производить запуск.");
+            return true;
+        }
+        else {
+            System.out.println("Тестирование ракеты выполнено с ошибками.");
+            System.out.println(result);
+            return false;
+        }
     }
 }

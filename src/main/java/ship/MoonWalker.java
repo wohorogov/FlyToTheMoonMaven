@@ -6,4 +6,5 @@ public interface MoonWalker {
     void turnLeft();
     void turnRight();
     void takeShot();
+    double getMass();
 }
