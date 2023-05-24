@@ -23,4 +23,9 @@ public class SpaceCraft {
     public double getAllMass() {
         return brakeStage.getAllMass() + moonWalker.getMass();
     }
+
+    public void print_full_info() {
+        brakeStage.print_full_info();
+        moonWalker.print_full_info();
+    }
 }

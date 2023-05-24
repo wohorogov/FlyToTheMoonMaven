@@ -7,4 +7,5 @@ public interface RocketStage {
     double getFuelConsumptionSpeed();
     void burningGas(double minusTime);
     String test();
+    void print_full_info();
 }

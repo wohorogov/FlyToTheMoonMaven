@@ -96,4 +96,13 @@ public class Rocket {
             return false;
         }
     }
+
+    public void print_full_info() {
+        System.out.println("Характеристики запускаемой ракеты:");
+        for (RocketStage val : this.rocketStage.values()) {
+            val.print_full_info();
+        }
+        spaceCraft.print_full_info();
+
+    }
 }

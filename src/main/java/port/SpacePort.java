@@ -1,11 +1,7 @@
 package port;
 
-import fly.Flying;
 import ship.Rocket;
-import threads.RunnableManager;
 import threads.RunnableShip;
-
-import java.util.concurrent.Exchanger;
 
 public class SpacePort implements Port {
     private Rocket rocket;
@@ -19,9 +15,8 @@ public class SpacePort implements Port {
     }
     @Override
     public void launch() {
+        rocket.print_full_info();
         Thread threadShip = new Thread(new RunnableShip(rocket));
-        Thread threadManager = new Thread(new RunnableManager(rocket));
         threadShip.start();
-        threadManager.start();
     }
 }

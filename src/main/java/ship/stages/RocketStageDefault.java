@@ -1,7 +1,6 @@
 package ship.stages;
 
 import lombok.Builder;
-import ship.stages.RocketStage;
 
 @Builder
 public class RocketStageDefault implements RocketStage {
@@ -31,17 +30,6 @@ public class RocketStageDefault implements RocketStage {
         this.remainingTime = remainingTime;
         this.fuelConsumptionSpeed = fuelConsumptionSpeed;
     }
-
-//    public RocketStageDefault(Rocket rocket, double mass, double fuelMass, int remainingTime, double speedGas, double fuelConsumptionSpeed) {
-//        this.num = seq++;
-//        this.mass = mass;
-//        this.speedGas = speedGas;
-//        this.fuelMass = fuelMass;
-//        this.remainingTime = remainingTime;
-//        this.fuelConsumptionSpeed = fuelConsumptionSpeed;
-//        rocket.addRocketStage(this);
-//    }
-
     @Override
     public double getAllMass() {
         return mass + fuelMass;
@@ -63,6 +51,11 @@ public class RocketStageDefault implements RocketStage {
             return "Скорость расхода топлива ступени ракеты №" + num + "не может быть меньше или равно 0.";
         }
         else return "Произошли ошибки при тестировании ступени ракеты №" + num;
+    }
+
+    @Override
+    public void print_full_info() {
+        System.out.println("Ступень №" + num + ", масса ступени = " + mass + ", масса топлива = " + fuelMass + ", скорость расхода топлива = " + fuelConsumptionSpeed + ", скорость газов = " + speedGas);
     }
 
     @Override

@@ -21,14 +21,6 @@ public class Flying {
     boolean endBrake = false;
     boolean rightLanding = false;
 
-    public boolean calcFly(Rocket rocket, RocketStage rocketStage, double time) {
-        boolean rocketOperable = true;
-
-        double distance = calcDistance(rocket, rocketStage, time);
-
-        return rocketOperable;
-    }
-
     private double getEarthGravitation(double mass, double distance) {
         return GRAVITATIONAL_CONSTANT * EARTH_MASS * mass / Math.pow((distance + EARTH_RADIUS), 2);
     }
@@ -41,7 +33,7 @@ public class Flying {
         return rocketStage.getSpeedGas() * rocketStage.getFuelConsumptionSpeed();
     }
 
-    private double calcDistance(Rocket rocket, RocketStage rocketStage, double time) {
+    public void calcDistance(Rocket rocket, RocketStage rocketStage, double time) {
         double allMass = rocket.getAllMass();
         double distance = rocket.getDistance();
 
@@ -61,7 +53,7 @@ public class Flying {
 
         print_info(rocket, forceOfGravitationEarth, forceOfGravitationMoon, reactivePower, boostNow);
 
-        return distance;
+//        return distance;
     }
 
     public void checkStartFlying(double distance) {

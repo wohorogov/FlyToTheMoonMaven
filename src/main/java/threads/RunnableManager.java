@@ -1,9 +1,10 @@
 package threads;
 
-import fly.Flying;
+import message.MessageService;
+import port.Port;
+import port.SpacePort;
 import ship.Rocket;
 
-import java.util.concurrent.Exchanger;
 
 public class RunnableManager implements Runnable{
     Rocket rocket;
@@ -14,7 +15,14 @@ public class RunnableManager implements Runnable{
 
     @Override
     public void run() {
-        Exchanger<String> exchanger = new Exchanger<String>();
         System.out.println("Мы в потоке управления");
+        MessageService messageService = new MessageService();
+        Port port = new SpacePort();
+        port.mount(rocket);
+
+        if (port.test()) {
+            port.launch();
+            System.out.println("Запустили поток ");
+        }
     }
 }
