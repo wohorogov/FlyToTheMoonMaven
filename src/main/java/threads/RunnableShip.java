@@ -5,16 +5,19 @@ import message.MessageService;
 import ship.Rocket;
 import ship.stages.RocketStage;
 
-public class RunnableShip implements Runnable{
+public class RunnableShip implements Runnable {
     private static final double MIN_TIME = 1;
     private static final int START_BRAKE_DISTANCE = 349_881_000;
     private static final double FINAL_DISTANCE = 350_000_000;
     private static final int MAX_SPEED_LANDING = 100;
     private static final int MIN_SPEED_LANDING = 0;
     Rocket rocket;
+    RocketStage rocketStage;
+
     public RunnableShip(Rocket rocket) {
         this.rocket = rocket;
     }
+
     @Override
     public void run() {
         System.out.println("Мы в потоке Ракеты");
@@ -23,11 +26,14 @@ public class RunnableShip implements Runnable{
         MessageService messageService = new MessageService();
 
         int numRocketStage = 1;
-        RocketStage rocketStage = rocket.getNextRocketStage(numRocketStage);
+        rocketStage = rocket.getNextRocketStage(numRocketStage);
         RocketStage rocketStageBrake = rocket.getSpaceCraft().getBrakeStage();
 
         double time = Math.min(rocketStage.getRemainingTime(), MIN_TIME);
         int num_iter = 0;
+
+        rocket.setFly(true);
+
         while (flying.isRocketOperable()) {
             num_iter++;
             flying.calcDistance(rocket, rocketStage, time);
@@ -37,15 +43,10 @@ public class RunnableShip implements Runnable{
                     flying.checkStartFlying(rocket.getDistance());
                 else flying.checkDown(rocket.getDistance());
 
+                if (flying.isStartBrake())
+                    checkRightLandingSpeed(flying);
 
-                if (flying.isStartBrake() && rocket.getSpeed() <= MIN_SPEED_LANDING) {
-                    flying.setStartBrake(false);
-                    flying.setEndBrake(true);
-                    flying.setRightLanding(true);
-                    System.out.println("Ракета вышла на правильную скорость для посадки");
-                }
-
-                if (rocket.getDistance() >= START_BRAKE_DISTANCE && !flying.isStartBrake() && !flying.isEndBrake()) {
+                if (rocket.getDistance() >= START_BRAKE_DISTANCE && !flying.isStartBrake() && rocket.getSpeed() > MAX_SPEED_LANDING) {
                     flying.setStartBrake(true);
                     flying.setFuelIsEmpty(true);
                     rocketStage = rocketStageBrake;
@@ -53,43 +54,62 @@ public class RunnableShip implements Runnable{
                     System.out.println("Начинаем тормозить.");
                 } else {
                     if (rocket.getDistance() >= FINAL_DISTANCE) {
-                        if (flying.isRightLanding() && rocket.getSpeed() < MAX_SPEED_LANDING) {
-                            System.out.println("Ракета села на Луну");
-                            flying.setRocketOperable(false);
-                        } else {
-                            System.out.println("Ракета разбилась");
-                            flying.setRocketOperable(false);
-                        }
+                        getFlyingResult(flying);
                     } else {
                         if ((!flying.isFuelIsEmpty() || flying.isStartBrake()) && !flying.isEndBrake()) {
-                            time = Math.min(rocketStage.getRemainingTime(), MIN_TIME);
-
-                            if (time == 0) {
-                                if (!flying.isFuelIsEmpty()) {
-                                    rocket.deleteRocketStage(numRocketStage);
-                                    numRocketStage++;
-                                    try {
-                                        rocketStage = rocket.getNextRocketStage(numRocketStage);
-                                        time = Math.min(rocketStage.getRemainingTime(), MIN_TIME);
-                                    } catch (Exception e) {
-                                        flying.setFuelIsEmpty(true);
-                                        time = MIN_TIME;
-                                        System.out.println("Топливо в ступенях закончилось.");
-                                    }
-                                } else {
-                                    System.out.println("Топливо в тормозном блоке закончилось, ракета осталась без топлива");
-                                    flying.setStartBrake(false);
-                                    flying.setEndBrake(true);
-                                    time = MIN_TIME;
-                                }
-                            }
+                            time = calcTimeStep(flying);
                         }
                     }
                 }
+
             }
         }
+        rocket.setFly(false);
 
         System.out.println("Полет завершен");
         System.out.println(num_iter);
+    }
+    public void checkRightLandingSpeed(Flying flying) {
+        if (rocket.getSpeed() <= MIN_SPEED_LANDING) {
+            flying.setStartBrake(false);
+            flying.setEndBrake(true);
+            flying.setRightLanding(true);
+            System.out.println("Ракета вышла на правильную скорость для посадки");
+        }
+    }
+    public double calcTimeStep(Flying flying) {
+        double time = Math.min(rocketStage.getRemainingTime(), MIN_TIME);
+
+        if (time == 0) {
+            if (!flying.isFuelIsEmpty()) {
+                int numRocketStage = rocketStage.getNum();
+                rocket.deleteRocketStage(numRocketStage);
+                numRocketStage++;
+                try {
+                    rocketStage = rocket.getNextRocketStage(numRocketStage);
+                    time = Math.min(rocketStage.getRemainingTime(), MIN_TIME);
+                } catch (Exception e) {
+                    flying.setFuelIsEmpty(true);
+                    time = MIN_TIME;
+                    System.out.println("Топливо в ступенях закончилось.");
+                }
+            } else {
+                System.out.println("Топливо в тормозном блоке закончилось, ракета осталась без топлива");
+                flying.setStartBrake(false);
+                flying.setEndBrake(true);
+                time = MIN_TIME;
+            }
+        }
+        return time;
+    }
+
+    public void getFlyingResult(Flying flying) {
+        if (flying.isRightLanding() && rocket.getSpeed() < MAX_SPEED_LANDING) {
+            System.out.println("Ракета села на Луну");
+            flying.setRocketOperable(false);
+        } else {
+            System.out.println("Ракета разбилась");
+            flying.setRocketOperable(false);
+        }
     }
 }

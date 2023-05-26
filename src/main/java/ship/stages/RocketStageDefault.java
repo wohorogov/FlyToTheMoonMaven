@@ -59,6 +59,11 @@ public class RocketStageDefault implements RocketStage {
     }
 
     @Override
+    public int getNum() {
+        return num;
+    }
+
+    @Override
     public int getRemainingTime() {
         return (int) (fuelMass / fuelConsumptionSpeed);
     }

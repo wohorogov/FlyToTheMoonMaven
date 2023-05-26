@@ -23,6 +23,9 @@ public class RunnableManager implements Runnable{
         if (port.test()) {
             port.launch();
             System.out.println("Запустили поток ");
+            while (rocket.isFly()) {
+
+            }
         }
     }
 }

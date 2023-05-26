@@ -11,6 +11,16 @@ public class Rocket {
 
     private double distance;
     private double speed;
+
+    public boolean isFly() {
+        return isFly;
+    }
+
+    public void setFly(boolean fly) {
+        isFly = fly;
+    }
+
+    private boolean isFly = false;
     Map<Integer, RocketStage> rocketStage = new HashMap();
     SpaceCraft spaceCraft;
 
@@ -67,16 +77,6 @@ public class Rocket {
     }
     public void deleteRocketStage(int num) {
         rocketStage.remove(num);
-    }
-    public void addRocketStage(RocketStage rocketStage) {
-        this.rocketStage.put(this.rocketStage.size(), rocketStage);
-    }
-
-    public int getRocketStageCount() {
-        return this.rocketStage.size();
-    }
-    public void addSpaceCraft(SpaceCraft spaceCraft) {
-        this.spaceCraft = spaceCraft;
     }
     public boolean test() {
         String result = null;

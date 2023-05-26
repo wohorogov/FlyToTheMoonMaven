@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StartProject {
-    public void action() {
+    public Rocket buildRocket() {
         //ступени ракеты
         Map<Integer, RocketStage> rocketStageMap = new HashMap() {{
             put(1, RocketStageDefault.builder()
@@ -58,13 +58,15 @@ public class StartProject {
                 .build();
 
         //Сборка ракеты
-        Rocket rocket = Rocket.builder()
+        return Rocket.builder()
                 .rocketStage(rocketStageMap)
                 .distance(0)
                 .speed(0)
                 .spaceCraft(spaceCraft)
                 .build();
-
+    }
+    public void action() {
+        Rocket rocket = buildRocket();
         Thread threadManager = new Thread(new RunnableManager(rocket));
         threadManager.start();
     }

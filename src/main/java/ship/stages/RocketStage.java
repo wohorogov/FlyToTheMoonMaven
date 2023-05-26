@@ -8,4 +8,5 @@ public interface RocketStage {
     void burningGas(double minusTime);
     String test();
     void print_full_info();
+    int getNum();
 }
