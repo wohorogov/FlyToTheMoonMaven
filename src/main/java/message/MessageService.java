@@ -2,8 +2,8 @@ package message;
 
 public class MessageService {
 //    private enum status
-    private String message;
-    private boolean getMessage = false;
+    private static String message;
+    private static boolean getMessage = false;
 
     public synchronized String get() throws InterruptedException {
         while (getMessage) {

@@ -23,6 +23,11 @@ public class RunnableManager implements Runnable{
         if (port.test()) {
             port.launch();
             System.out.println("Запустили поток ");
+            try {
+                messageService.set("Запуск");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             while (rocket.isFly()) {
 
             }

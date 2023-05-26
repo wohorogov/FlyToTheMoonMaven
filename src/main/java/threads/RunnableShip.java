@@ -20,21 +20,35 @@ public class RunnableShip implements Runnable {
 
     @Override
     public void run() {
+        String message;
         System.out.println("Мы в потоке Ракеты");
 
         Flying flying = new Flying();
         MessageService messageService = new MessageService();
 
         int numRocketStage = 1;
+
+        try {
+            message = messageService.get();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        if (!message.equals("Запуск")) {
+            System.out.println("Полет откладывается.");
+            rocket.setFly(false);
+        }
+        else {
+            rocket.setFly(true);
+        }
+
         rocketStage = rocket.getNextRocketStage(numRocketStage);
         RocketStage rocketStageBrake = rocket.getSpaceCraft().getBrakeStage();
 
         double time = Math.min(rocketStage.getRemainingTime(), MIN_TIME);
+
         int num_iter = 0;
 
-        rocket.setFly(true);
-
-        while (flying.isRocketOperable()) {
+        while (flying.isRocketOperable() && rocket.isFly()) {
             num_iter++;
             flying.calcDistance(rocket, rocketStage, time);
 

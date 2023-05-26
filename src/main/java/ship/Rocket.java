@@ -25,11 +25,12 @@ public class Rocket {
     SpaceCraft spaceCraft;
 
 
-    public Rocket(double distance, double speed, Map<Integer, RocketStage> rocketStages, SpaceCraft spaceCraft) {
+    public Rocket(double distance, double speed, boolean isFly, Map<Integer, RocketStage> rocketStages, SpaceCraft spaceCraft) {
         this.rocketStage = rocketStages;
         this.spaceCraft = spaceCraft;
         this.distance = distance;
         this.speed = speed;
+        this.isFly = isFly;
     }
 
     public SpaceCraft getSpaceCraft() {
