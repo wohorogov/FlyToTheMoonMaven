@@ -1,5 +1,6 @@
 package org.example;
 
+import message.MessageService;
 import ship.*;
 import ship.spacecraft.MoonWalker;
 import ship.spacecraft.MoonWalkerDefault;
@@ -67,7 +68,8 @@ public class StartProject {
     }
     public void action() {
         Rocket rocket = buildRocket();
-        Thread threadManager = new Thread(new RunnableManager(rocket));
+        MessageService messageService = new MessageService();
+        Thread threadManager = new Thread(new RunnableManager(rocket, messageService));
         threadManager.start();
     }
 }

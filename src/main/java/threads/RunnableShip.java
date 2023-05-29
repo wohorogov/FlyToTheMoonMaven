@@ -13,9 +13,11 @@ public class RunnableShip implements Runnable {
     private static final int MIN_SPEED_LANDING = 0;
     Rocket rocket;
     RocketStage rocketStage;
+    MessageService messageService;
 
-    public RunnableShip(Rocket rocket) {
+    public RunnableShip(Rocket rocket, MessageService messageService) {
         this.rocket = rocket;
+        this.messageService = messageService;
     }
 
     @Override
@@ -24,7 +26,6 @@ public class RunnableShip implements Runnable {
         System.out.println("Мы в потоке Ракеты");
 
         Flying flying = new Flying();
-        MessageService messageService = new MessageService();
 
         int numRocketStage = 1;
 
@@ -33,6 +34,7 @@ public class RunnableShip implements Runnable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
         if (!message.equals("Запуск")) {
             System.out.println("Полет откладывается.");
             rocket.setFly(false);

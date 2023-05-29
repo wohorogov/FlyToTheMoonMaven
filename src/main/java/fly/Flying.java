@@ -18,8 +18,8 @@ public class Flying {
     boolean rocketOperable = true; //ракета цела
     boolean fuelIsEmpty = false; // осталось топливо
     boolean startBrake = false; //старт запуска тормозного блока
-    boolean endBrake = false;
-    boolean rightLanding = false;
+    boolean endBrake = false; //окончание торможения
+    boolean rightLanding = false;//посадка
 
     private double getEarthGravitation(double mass, double distance) {
         return GRAVITATIONAL_CONSTANT * EARTH_MASS * mass / Math.pow((distance + EARTH_RADIUS), 2);

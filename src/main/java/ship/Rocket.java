@@ -41,11 +41,6 @@ public class Rocket {
         return speed;
     }
 
-    public Rocket(Map<Integer, RocketStage> rocketStages) {
-        this.rocketStage = rocketStages;
-        this.distance = 0;
-    }
-
     public void setSpeed(double speed) {
         this.speed = speed;
     }

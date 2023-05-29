@@ -8,9 +8,11 @@ import ship.Rocket;
 
 public class RunnableManager implements Runnable{
     Rocket rocket;
+    MessageService messageService;
 
-    public RunnableManager(Rocket rocket) {
+    public RunnableManager(Rocket rocket, MessageService messageService) {
         this.rocket = rocket;
+        this.messageService = messageService;
     }
 
     @Override
@@ -21,7 +23,7 @@ public class RunnableManager implements Runnable{
         port.mount(rocket);
 
         if (port.test()) {
-            port.launch();
+            port.launch(messageService);
             System.out.println("Запустили поток ");
             try {
                 messageService.set("Запуск");
