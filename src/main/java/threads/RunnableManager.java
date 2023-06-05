@@ -7,9 +7,9 @@ import ship.Rocket;
 
 
 public class RunnableManager implements Runnable{
-    Rocket rocket;
-    MessageService messageService;
-
+    private Rocket rocket;
+    private MessageService messageService;
+    private int lastId;
     public RunnableManager(Rocket rocket, MessageService messageService) {
         this.rocket = rocket;
         this.messageService = messageService;
@@ -18,21 +18,20 @@ public class RunnableManager implements Runnable{
     @Override
     public void run() {
         System.out.println("Мы в потоке управления");
-        MessageService messageService = new MessageService();
         Port port = new SpacePort();
         port.mount(rocket);
 
         if (port.test()) {
             port.launch(messageService);
             System.out.println("Запустили поток ");
-            try {
-                messageService.set("Запуск");
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            while (rocket.isFly()) {
-
-            }
+//            try {
+//                messageService.set("Запуск");
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//            while (rocket.isFly()) {
+//
+//            }
         }
     }
 }

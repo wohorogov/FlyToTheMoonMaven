@@ -40,7 +40,7 @@ public class MoonWalkerDefault implements MoonWalker {
     }
 
     @Override
-    public void print_full_info() {
+    public void printFullInfo() {
         System.out.println("Масса лунохода = " + mass);
     }
 }

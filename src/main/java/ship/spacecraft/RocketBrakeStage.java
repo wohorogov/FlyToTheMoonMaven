@@ -72,7 +72,7 @@ public class RocketBrakeStage implements RocketStage {
     }
 
     @Override
-    public void print_full_info() {
+    public void printFullInfo() {
         System.out.println("Тормозной блок, масса блока = " + mass + ", масса топлива = " + fuelMass + ", скорость расхода топлива = " + fuelConsumptionSpeed + ", скорость газов = " + speedGas);
     }
 

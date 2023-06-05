@@ -1,31 +1,22 @@
 package ship.spacecraft;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @Builder
+@Getter
+@Setter
+@AllArgsConstructor
 public class SpaceCraft {
     private MoonWalker moonWalker;
     private RocketBrakeStage brakeStage;
-
-    public SpaceCraft(MoonWalker moonWalker, RocketBrakeStage brakeStage) {
-        this.moonWalker = moonWalker;
-        this.brakeStage = brakeStage;
-    }
-
-    public MoonWalker getMoonWalker() {
-        return moonWalker;
-    }
-
-    public RocketBrakeStage getBrakeStage() {
-        return brakeStage;
-    }
-
     public double getAllMass() {
         return brakeStage.getAllMass() + moonWalker.getMass();
     }
-
-    public void print_full_info() {
-        brakeStage.print_full_info();
-        moonWalker.print_full_info();
+    public void printFullInfo() {
+        brakeStage.printFullInfo();
+        moonWalker.printFullInfo();
     }
 }

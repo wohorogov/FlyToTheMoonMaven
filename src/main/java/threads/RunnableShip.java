@@ -1,10 +1,13 @@
 package threads;
 
 import fly.Flying;
+import lombok.Getter;
+import lombok.Setter;
 import message.MessageService;
 import ship.Rocket;
 import ship.stages.RocketStage;
-
+@Getter
+@Setter
 public class RunnableShip implements Runnable {
     private static final double MIN_TIME = 1;
     private static final int START_BRAKE_DISTANCE = 349_881_000;
@@ -29,20 +32,21 @@ public class RunnableShip implements Runnable {
 
         int numRocketStage = 1;
 
-        try {
-            message = messageService.get();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            message = messageService.get();
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
-        if (!message.equals("Запуск")) {
-            System.out.println("Полет откладывается.");
-            rocket.setFly(false);
-        }
-        else {
-            rocket.setFly(true);
-        }
+//        if (!message.equals("Запуск")) {
+//            System.out.println("Полет откладывается.");
+//            rocket.setFly(false);
+//        }
+//        else {
+//            rocket.setFly(true);
+//        }
 
+        rocket.setFly(true);
         rocketStage = rocket.getNextRocketStage(numRocketStage);
         RocketStage rocketStageBrake = rocket.getSpaceCraft().getBrakeStage();
 
@@ -62,7 +66,7 @@ public class RunnableShip implements Runnable {
                 if (flying.isStartBrake())
                     checkRightLandingSpeed(flying);
 
-                if (rocket.getDistance() >= START_BRAKE_DISTANCE && !flying.isStartBrake() && rocket.getSpeed() > MAX_SPEED_LANDING) {
+                if (flying.checkStartBrake(rocket)) {//(rocket.getDistance() >= START_BRAKE_DISTANCE && !flying.isStartBrake() && rocket.getSpeed() > MAX_SPEED_LANDING) {
                     flying.setStartBrake(true);
                     flying.setFuelIsEmpty(true);
                     rocketStage = rocketStageBrake;
@@ -79,7 +83,7 @@ public class RunnableShip implements Runnable {
                 }
 
             }
-        }
+        }//задача торможения автомобиля
         rocket.setFly(false);
 
         System.out.println("Полет завершен");

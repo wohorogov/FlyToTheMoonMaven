@@ -1,8 +1,16 @@
 package fly;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ship.Rocket;
 import ship.stages.RocketStage;
+import threads.RunnableManager;
+import threads.RunnableShip;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class Flying {
     private static final double EARTH_MASS = 5.9722 * Math.pow(10, 24);
     private static final double MOON_MASS = EARTH_MASS * 0.0123;
@@ -37,11 +45,7 @@ public class Flying {
         double allMass = rocket.getAllMass();
         double distance = rocket.getDistance();
 
-        double forceOfGravitationEarth = getEarthGravitation(allMass, distance);
-        double forceOfGravitationMoon = getMoonGravitation(allMass, distance);
-        double reactivePower = !fuelIsEmpty ? getReactivePower(rocketStage) : startBrake ? getReactivePower(rocketStage) * (-1) : 0;
-
-        double boostNow = (forceOfGravitationMoon - forceOfGravitationEarth + reactivePower) / allMass;
+        double boostNow = getBoost(allMass, distance, rocketStage);
 
         distance += rocket.getSpeed() * time + (boostNow * Math.pow(time, 2)) / 2;
 
@@ -51,9 +55,7 @@ public class Flying {
         if (!fuelIsEmpty || startBrake)
             rocketStage.burningGas(time);
 
-        print_info(rocket, forceOfGravitationEarth, forceOfGravitationMoon, reactivePower, boostNow);
-
-//        return distance;
+        printInfo(rocket, boostNow);
     }
 
     public void checkStartFlying(double distance) {
@@ -70,49 +72,32 @@ public class Flying {
         }
     }
 
-    private void print_info(Rocket rocket, double forceOfGravitationEarth, double forceOfGravitationMoon, double reactivePower, double boostNow) {
+    private void printInfo(Rocket rocket, double boostNow) {
         System.out.println("Координата = " + rocket.getDistance() + ", масса = " +
-                rocket.getAllMass() + ", сила земли " + forceOfGravitationEarth + ", сила луны " + forceOfGravitationMoon + ", реактивная сила " + reactivePower
-                + ", усорение " + boostNow + ", скорость " + rocket.getSpeed());
+                rocket.getAllMass() + ", усорение " + boostNow + ", скорость " + rocket.getSpeed());
     }
 
-    public boolean isFuelIsEmpty() {
-        return fuelIsEmpty;
+    public double getBoost(double allMass, double distance, RocketStage rocketStage) {
+        double forceOfGravitationEarth = getEarthGravitation(allMass, distance);
+        double forceOfGravitationMoon = getMoonGravitation(allMass, distance);
+        double reactivePower = !fuelIsEmpty ? getReactivePower(rocketStage) : startBrake ? getReactivePower(rocketStage) * (-1) : 0;
+
+        return (forceOfGravitationMoon - forceOfGravitationEarth + reactivePower) / allMass;
     }
 
-    public boolean isStartBrake() {
-        return startBrake;
-    }
+    public boolean checkStartBrake(Rocket rocket) {
+        boolean result = false;
+        double allMass = rocket.getAllMass();
+        double distance = rocket.getDistance();
+        double speed = rocket.getSpeed();
+        double boost = getBoost(allMass, distance, rocket.getSpaceCraft().getBrakeStage());
+        double needTimeForBrake = speed / boost;
 
-    public boolean isEndBrake() {
-        return endBrake;
-    }
+        double brakeDistance = speed * needTimeForBrake - (boost * Math.pow(needTimeForBrake, 2)) / 2;
 
-    public boolean isRightLanding() {
-        return rightLanding;
-    }
+        if (brakeDistance >= FINAL_DISTANCE - distance && needTimeForBrake <= rocket.getSpaceCraft().getBrakeStage().getRemainingTime())
+            result = true;
 
-    public void setRocketOperable(boolean rocketOperable) {
-        this.rocketOperable = rocketOperable;
-    }
-
-    public void setFuelIsEmpty(boolean fuelIsEmpty) {
-        this.fuelIsEmpty = fuelIsEmpty;
-    }
-
-    public void setStartBrake(boolean startBrake) {
-        this.startBrake = startBrake;
-    }
-
-    public void setEndBrake(boolean endBrake) {
-        this.endBrake = endBrake;
-    }
-
-    public void setRightLanding(boolean rightLanding) {
-        this.rightLanding = rightLanding;
-    }
-
-    public boolean isRocketOperable() {
-        return rocketOperable;
+        return result;
     }
 }

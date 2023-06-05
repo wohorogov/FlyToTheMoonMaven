@@ -1,50 +1,24 @@
 package ship;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import ship.spacecraft.SpaceCraft;
 import ship.stages.RocketStage;
 
 import java.util.HashMap;
 import java.util.Map;
 @Builder
+@Getter
+@Setter
+@AllArgsConstructor
 public class Rocket {
-
     private double distance;
     private double speed;
-
-    public boolean isFly() {
-        return isFly;
-    }
-
-    public void setFly(boolean fly) {
-        isFly = fly;
-    }
-
     private boolean isFly = false;
     Map<Integer, RocketStage> rocketStage = new HashMap();
     SpaceCraft spaceCraft;
-
-
-    public Rocket(double distance, double speed, boolean isFly, Map<Integer, RocketStage> rocketStages, SpaceCraft spaceCraft) {
-        this.rocketStage = rocketStages;
-        this.spaceCraft = spaceCraft;
-        this.distance = distance;
-        this.speed = speed;
-        this.isFly = isFly;
-    }
-
-    public SpaceCraft getSpaceCraft() {
-        return spaceCraft;
-    }
-
-    public double getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(double speed) {
-        this.speed = speed;
-    }
-
     public double getAllMass() {
         double sum = 0;
         for (RocketStage val : this.rocketStage.values()) {
@@ -56,20 +30,11 @@ public class Rocket {
 
         return sum;
     }
-
     public RocketStage getNextRocketStage(int num) {
         if (!this.rocketStage.isEmpty()) {
             return this.rocketStage.get(num);
         }
         else return null;
-    }
-
-    public double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
     }
     public void deleteRocketStage(int num) {
         rocketStage.remove(num);
@@ -93,12 +58,12 @@ public class Rocket {
         }
     }
 
-    public void print_full_info() {
+    public void printFullInfo() {
         System.out.println("Характеристики запускаемой ракеты:");
         for (RocketStage val : this.rocketStage.values()) {
-            val.print_full_info();
+            val.printFullInfo();
         }
-        spaceCraft.print_full_info();
+        spaceCraft.printFullInfo();
 
     }
 }

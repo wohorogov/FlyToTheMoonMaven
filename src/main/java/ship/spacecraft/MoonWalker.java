@@ -7,5 +7,5 @@ public interface MoonWalker {
     void turnRight();
     void takeShot();
     double getMass();
-    void print_full_info();
+    void printFullInfo();
 }
