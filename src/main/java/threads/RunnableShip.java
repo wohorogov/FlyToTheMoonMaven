@@ -66,7 +66,7 @@ public class RunnableShip implements Runnable {
                 if (flying.isStartBrake())
                     checkRightLandingSpeed(flying);
 
-                if (flying.checkStartBrake(rocket)) {//(rocket.getDistance() >= START_BRAKE_DISTANCE && !flying.isStartBrake() && rocket.getSpeed() > MAX_SPEED_LANDING) {
+                if (flying.checkStartBrake(rocket) && !flying.isStartBrake()) {//(rocket.getDistance() >= START_BRAKE_DISTANCE && !flying.isStartBrake() && rocket.getSpeed() > MAX_SPEED_LANDING) {
                     flying.setStartBrake(true);
                     flying.setFuelIsEmpty(true);
                     rocketStage = rocketStageBrake;

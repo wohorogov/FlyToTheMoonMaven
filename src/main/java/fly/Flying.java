@@ -47,6 +47,8 @@ public class Flying {
 
         double boostNow = getBoost(allMass, distance, rocketStage);
 
+        if (boostNow < 0 )
+            System.out.println("меньше");
         distance += rocket.getSpeed() * time + (boostNow * Math.pow(time, 2)) / 2;
 
         rocket.setDistance(distance);
@@ -95,7 +97,7 @@ public class Flying {
 
         double brakeDistance = speed * needTimeForBrake - (boost * Math.pow(needTimeForBrake, 2)) / 2;
 
-        if (brakeDistance >= FINAL_DISTANCE - distance && needTimeForBrake <= rocket.getSpaceCraft().getBrakeStage().getRemainingTime())
+        if (brakeDistance >= FINAL_DISTANCE - distance)// && needTimeForBrake <= rocket.getSpaceCraft().getBrakeStage().getRemainingTime())
             result = true;
 
         return result;
