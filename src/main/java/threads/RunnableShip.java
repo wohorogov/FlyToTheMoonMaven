@@ -52,14 +52,16 @@ public class RunnableShip implements Runnable {
 
         double time = Math.min(rocketStage.getRemainingTime(), MIN_TIME);
 
-        int num_iter = 0;
+        int numIter = 0;
 
         while (flying.isRocketOperable() && rocket.isFly()) {
-            num_iter++;
+            numIter++;
             flying.calcDistance(rocket, rocketStage, time);
+            if (numIter == 134455)
+                System.out.println("дошли");
 
             if (flying.isRocketOperable()) {
-                if (num_iter < 5)
+                if (numIter < 5)
                     flying.checkStartFlying(rocket.getDistance());
                 else flying.checkDown(rocket.getDistance());
 
@@ -87,7 +89,7 @@ public class RunnableShip implements Runnable {
         rocket.setFly(false);
 
         System.out.println("Полет завершен");
-        System.out.println(num_iter);
+        System.out.println(numIter);
     }
     public void checkRightLandingSpeed(Flying flying) {
         if (rocket.getSpeed() <= MIN_SPEED_LANDING) {

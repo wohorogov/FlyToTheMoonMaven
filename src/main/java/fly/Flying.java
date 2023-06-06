@@ -16,6 +16,7 @@ public class Flying {
     private static final double MOON_MASS = EARTH_MASS * 0.0123;
     private static final double EARTH_RADIUS = 6_371_300;
     private static final double MOON_RADIUS = EARTH_RADIUS * 0.273;
+    private static final String BRAKE_CHECK = "BRAKE_CHECK";
     private static final double GRAVITATIONAL_CONSTANT;
 
     static {
@@ -45,7 +46,7 @@ public class Flying {
         double allMass = rocket.getAllMass();
         double distance = rocket.getDistance();
 
-        double boostNow = getBoost(allMass, distance, rocketStage);
+        double boostNow = getBoost(allMass, distance, rocketStage, "BOOST");
 
         if (boostNow < 0 )
             System.out.println("меньше");
@@ -79,26 +80,31 @@ public class Flying {
                 rocket.getAllMass() + ", усорение " + boostNow + ", скорость " + rocket.getSpeed());
     }
 
-    public double getBoost(double allMass, double distance, RocketStage rocketStage) {
+    public double getBoost(double allMass, double distance, RocketStage rocketStage, String flag) {
         double forceOfGravitationEarth = getEarthGravitation(allMass, distance);
         double forceOfGravitationMoon = getMoonGravitation(allMass, distance);
-        double reactivePower = !fuelIsEmpty ? getReactivePower(rocketStage) : startBrake ? getReactivePower(rocketStage) * (-1) : 0;
+        double reactivePower;
+
+        if (flag.equals(BRAKE_CHECK))
+            reactivePower = getReactivePower(rocketStage) * (-1);
+        else
+            reactivePower = !fuelIsEmpty ? getReactivePower(rocketStage) : startBrake ? getReactivePower(rocketStage) * (-1) : 0;
 
         return (forceOfGravitationMoon - forceOfGravitationEarth + reactivePower) / allMass;
     }
-
     public boolean checkStartBrake(Rocket rocket) {
         boolean result = false;
         double allMass = rocket.getAllMass();
         double distance = rocket.getDistance();
         double speed = rocket.getSpeed();
-        double boost = getBoost(allMass, distance, rocket.getSpaceCraft().getBrakeStage());
-        double needTimeForBrake = speed / boost;
+        double boost = getBoost(allMass, distance, rocket.getSpaceCraft().getBrakeStage(), BRAKE_CHECK);
+        double needTimeForBrake = Math.abs(speed / boost);
 
-        double brakeDistance = speed * needTimeForBrake - (boost * Math.pow(needTimeForBrake, 2)) / 2;
+        double brakeDistance = speed * needTimeForBrake + (boost * Math.pow(needTimeForBrake, 2)) / 2;
 
-        if (brakeDistance >= FINAL_DISTANCE - distance)// && needTimeForBrake <= rocket.getSpaceCraft().getBrakeStage().getRemainingTime())
+        if (brakeDistance >= FINAL_DISTANCE - distance - 100) {// && needTimeForBrake <= rocket.getSpaceCraft().getBrakeStage().getRemainingTime())
             result = true;
+        }
 
         return result;
     }
