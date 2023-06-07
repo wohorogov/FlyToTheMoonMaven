@@ -1,4 +1,4 @@
-package ship;
+package ship.stages;
 
 public interface RocketStage {
     double getAllMass();
@@ -7,4 +7,6 @@ public interface RocketStage {
     double getFuelConsumptionSpeed();
     void burningGas(double minusTime);
     String test();
+    void printFullInfo();
+    int getNum();
 }

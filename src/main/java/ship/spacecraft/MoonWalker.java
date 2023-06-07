@@ -1,4 +1,4 @@
-package ship;
+package ship.spacecraft;
 
 public interface MoonWalker {
     void moveForward();
@@ -7,4 +7,5 @@ public interface MoonWalker {
     void turnRight();
     void takeShot();
     double getMass();
+    void printFullInfo();
 }

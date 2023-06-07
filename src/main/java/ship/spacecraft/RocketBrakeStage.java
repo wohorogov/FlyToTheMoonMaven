@@ -1,7 +1,9 @@
-package ship;
+package ship.spacecraft;
 
 import lombok.Builder;
 import lombok.Data;
+import ship.Rocket;
+import ship.stages.RocketStage;
 
 @Data
 @Builder
@@ -67,5 +69,15 @@ public class RocketBrakeStage implements RocketStage {
             return "Скорость расхода топлива тормозного блока не может быть меньше или равно 0.";
         }
         else return "Произошли ошибки при тестировании тормозного блока";
+    }
+
+    @Override
+    public void printFullInfo() {
+        System.out.println("Тормозной блок, масса блока = " + mass + ", масса топлива = " + fuelMass + ", скорость расхода топлива = " + fuelConsumptionSpeed + ", скорость газов = " + speedGas);
+    }
+
+    @Override
+    public int getNum() {
+        return 0;
     }
 }

@@ -1,14 +1,20 @@
 package org.example;
 
-import port.Port;
-import port.SpacePort;
+import message.MessageService;
 import ship.*;
+import ship.spacecraft.MoonWalker;
+import ship.spacecraft.MoonWalkerDefault;
+import ship.spacecraft.RocketBrakeStage;
+import ship.spacecraft.SpaceCraft;
+import ship.stages.RocketStage;
+import ship.stages.RocketStageDefault;
+import threads.RunnableManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class StartProject {
-    public void action() {
+    public Rocket buildRocket() {
         //ступени ракеты
         Map<Integer, RocketStage> rocketStageMap = new HashMap() {{
             put(1, RocketStageDefault.builder()
@@ -16,7 +22,7 @@ public class StartProject {
                     .fuelMass(430_000)
                     .remainingTime(120)
                     .fuelConsumptionSpeed(4000)
-                    .speedGas(5800)
+                    .speedGas(6000)
                     .num(1)
                     .build());
             put(2, RocketStageDefault.builder()
@@ -37,34 +43,33 @@ public class StartProject {
                     .build());
         }};
         //Тормозной блок
-        RocketStage rocketBrakeStage = RocketBrakeStage.builder()
-                .mass(0)
+        RocketBrakeStage rocketBrakeStage = RocketBrakeStage.builder()
+                .mass(600)
                 .fuelMass(3000)
                 .fuelConsumptionSpeed(30)
-                .speedGas(3000)
+                .speedGas(3900)
                 .build();
 
         //Луноход
         MoonWalker moonWalker = new MoonWalkerDefault(180);
         //Космический аппарат с тормозным блоком и луноходом
         SpaceCraft spaceCraft = SpaceCraft.builder()
-                .brakeStage((RocketBrakeStage) rocketBrakeStage)
+                .brakeStage(rocketBrakeStage)
                 .moonWalker(moonWalker)
                 .build();
 
         //Сборка ракеты
-        Rocket rocket = Rocket.builder()
+        return Rocket.builder()
                 .rocketStage(rocketStageMap)
                 .distance(0)
                 .speed(0)
                 .spaceCraft(spaceCraft)
                 .build();
-
-        Port port = new SpacePort();
-        port.mount(rocket);
-
-        if (port.test()) {
-            port.launch();
-        }
+    }
+    public void action() {
+        Rocket rocket = buildRocket();
+        MessageService messageService = new MessageService();
+        Thread threadManager = new Thread(new RunnableManager(rocket, messageService));
+        threadManager.start();
     }
 }

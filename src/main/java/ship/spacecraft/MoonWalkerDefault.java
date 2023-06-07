@@ -1,6 +1,8 @@
-package ship;
+package ship.spacecraft;
 
-public class MoonWalkerDefault implements MoonWalker{
+import ship.spacecraft.MoonWalker;
+
+public class MoonWalkerDefault implements MoonWalker {
     double mass;
 
     public MoonWalkerDefault(double mass) {
@@ -35,5 +37,10 @@ public class MoonWalkerDefault implements MoonWalker{
     @Override
     public double getMass() {
         return mass;
+    }
+
+    @Override
+    public void printFullInfo() {
+        System.out.println("Масса лунохода = " + mass);
     }
 }

@@ -1,42 +1,24 @@
 package ship;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import ship.spacecraft.SpaceCraft;
+import ship.stages.RocketStage;
 
 import java.util.HashMap;
 import java.util.Map;
 @Builder
+@Getter
+@Setter
+@AllArgsConstructor
 public class Rocket {
-
     private double distance;
     private double speed;
+    private boolean isFly = false;
     Map<Integer, RocketStage> rocketStage = new HashMap();
     SpaceCraft spaceCraft;
-
-
-    public Rocket(double distance, double speed, Map<Integer, RocketStage> rocketStages, SpaceCraft spaceCraft) {
-        this.rocketStage = rocketStages;
-        this.spaceCraft = spaceCraft;
-        this.distance = distance;
-        this.speed = speed;
-    }
-
-    public SpaceCraft getSpaceCraft() {
-        return spaceCraft;
-    }
-
-    public double getSpeed() {
-        return speed;
-    }
-
-    public Rocket(Map<Integer, RocketStage> rocketStages) {
-        this.rocketStage = rocketStages;
-        this.distance = 0;
-    }
-
-    public void setSpeed(double speed) {
-        this.speed = speed;
-    }
-
     public double getAllMass() {
         double sum = 0;
         for (RocketStage val : this.rocketStage.values()) {
@@ -48,33 +30,14 @@ public class Rocket {
 
         return sum;
     }
-
     public RocketStage getNextRocketStage(int num) {
         if (!this.rocketStage.isEmpty()) {
             return this.rocketStage.get(num);
         }
         else return null;
     }
-
-    public double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
-    }
     public void deleteRocketStage(int num) {
         rocketStage.remove(num);
-    }
-    public void addRocketStage(RocketStage rocketStage) {
-        this.rocketStage.put(this.rocketStage.size(), rocketStage);
-    }
-
-    public int getRocketStageCount() {
-        return this.rocketStage.size();
-    }
-    public void addSpaceCraft(SpaceCraft spaceCraft) {
-        this.spaceCraft = spaceCraft;
     }
     public boolean test() {
         String result = null;
@@ -93,5 +56,14 @@ public class Rocket {
             System.out.println(result);
             return false;
         }
+    }
+
+    public void printFullInfo() {
+        System.out.println("Характеристики запускаемой ракеты:");
+        for (RocketStage val : this.rocketStage.values()) {
+            val.printFullInfo();
+        }
+        spaceCraft.printFullInfo();
+
     }
 }
