@@ -1,11 +1,11 @@
 package ship.spacecraft;
 
 public interface MoonWalker {
-    void moveForward();
-    void moveBack();
-    void turnLeft();
-    void turnRight();
-    void takeShot();
+    String moveForward();
+    String moveBack();
+    String turnLeft();
+    String turnRight();
+    String takeShot();
     double getMass();
     void printFullInfo();
 }

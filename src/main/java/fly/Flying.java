@@ -48,8 +48,6 @@ public class Flying {
 
         double boostNow = getBoost(allMass, distance, rocketStage, "BOOST");
 
-        if (boostNow < 0 )
-            System.out.println("меньше");
         distance += rocket.getSpeed() * time + (boostNow * Math.pow(time, 2)) / 2;
 
         rocket.setDistance(distance);
@@ -58,7 +56,7 @@ public class Flying {
         if (!fuelIsEmpty || startBrake)
             rocketStage.burningGas(time);
 
-        printInfo(rocket, boostNow);
+//        printInfo(rocket, boostNow);
     }
 
     public void checkStartFlying(double distance) {
@@ -67,6 +65,7 @@ public class Flying {
             System.out.println("Ракета не может взлететь!");
         }
     }
+
 
     public void checkDown(double distance) {
         if (distance < 0) {

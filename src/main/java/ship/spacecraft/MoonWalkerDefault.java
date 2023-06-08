@@ -10,28 +10,28 @@ public class MoonWalkerDefault implements MoonWalker {
     }
 
     @Override
-    public void moveForward() {
-        System.out.println("Шаг вперед");
+    public String moveForward() {
+        return "Шаг вперед";
     }
 
     @Override
-    public void moveBack() {
-        System.out.println("Шаг назад");
+    public String moveBack() {
+        return "Шаг назад";
     }
 
     @Override
-    public void turnLeft() {
-        System.out.println("Шаг влево");
+    public String turnLeft() {
+        return "Шаг влево";
     }
 
     @Override
-    public void turnRight() {
-        System.out.println("Шаг вправо");
+    public String turnRight() {
+        return "Шаг вправо";
     }
 
     @Override
-    public void takeShot() {
-        System.out.println("Снимок сделан");
+    public String takeShot() {
+        return "Снимок сделан";
     }
 
     @Override

@@ -1,12 +1,25 @@
 package threads;
 
+import lombok.Getter;
+import message.Message;
 import message.MessageService;
 import port.Port;
 import port.SpacePort;
 import ship.Rocket;
 
+import java.util.Map;
 
+@Getter
 public class RunnableManager implements Runnable{
+    private static final String SENDER = "MANAGER";
+    private static final String MESSAGE_TO_ROCKET = "ROCKET";
+    private static final String MESSAGE_TO_MOON_WALKER = "MOON_WALKER";
+    private static final String COMMAND_FORWARD = "ВПЕРЕД";
+    private static final String COMMAND_RIGHT = "ВПРАВО";
+    private static final String COMMAND_LEFT = "ВЛЕВО";
+    private static final String COMMAND_BACK = "НАЗАД";
+    private static final String COMMAND_SHOT = "СНИМОК";
+    private boolean getShot = false;
     private Rocket rocket;
     private MessageService messageService;
     private int lastId;
@@ -20,18 +33,87 @@ public class RunnableManager implements Runnable{
         System.out.println("Мы в потоке управления");
         Port port = new SpacePort();
         port.mount(rocket);
+        Thread t = Thread.currentThread();
 
         if (port.test()) {
             port.launch(messageService);
-            System.out.println("Запустили поток ");
-//            try {
-//                messageService.set("Запуск");
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//            while (rocket.isFly()) {
-//
-//            }
+
+            try {
+                t.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            while (true) {
+                try {
+                    t.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                readMessages(MESSAGE_TO_ROCKET);
+
+                if (!rocket.isFly()) {
+                    readMessages(MESSAGE_TO_ROCKET);
+                    break;
+                }
+            }
+
+            Thread threadMoonWalker = new Thread(new RunnableMoonWalker(rocket, messageService));
+            threadMoonWalker.start();
+
+            while (!getShot) {
+                try {
+                    messageService.putMessage(COMMAND_FORWARD, SENDER, MESSAGE_TO_MOON_WALKER);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    messageService.putMessage(COMMAND_BACK, SENDER, MESSAGE_TO_MOON_WALKER);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    messageService.putMessage(COMMAND_RIGHT, SENDER, MESSAGE_TO_MOON_WALKER);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }try {
+                    messageService.putMessage(COMMAND_SHOT, SENDER, MESSAGE_TO_MOON_WALKER);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                try {
+                    messageService.getUnreadMessages(MESSAGE_TO_MOON_WALKER, SENDER);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    t.sleep(5000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                readMessages(MESSAGE_TO_MOON_WALKER);
+            }
+        }
+    }
+
+    private void readMessages(String from) {
+        Map<Integer, Message> messages = null;
+        try {
+            messages = messageService.getUnreadMessages(from, SENDER);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (messages.size() != 0) {
+            for (Message m :
+                    messages.values()) {
+                System.out.println(m.getText());
+                m.setRead(true);
+                if (m.getText().equals("Снимок сделан")) {
+                    getShot = true;
+                }
+            }
         }
     }
 }
