@@ -3,11 +3,13 @@ package threads;
 import lombok.Getter;
 import message.Message;
 import message.MessageService;
+import org.example.StartProject;
 import port.Port;
 import port.SpacePort;
 import ship.Rocket;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Getter
 public class RunnableManager implements Runnable{
@@ -19,6 +21,7 @@ public class RunnableManager implements Runnable{
     private static final String COMMAND_LEFT = "ВЛЕВО";
     private static final String COMMAND_BACK = "НАЗАД";
     private static final String COMMAND_SHOT = "СНИМОК";
+    public final static Logger log = Logger.getLogger(String.valueOf(StartProject.class));
     private boolean getShot = false;
     private Rocket rocket;
     private MessageService messageService;
@@ -108,7 +111,8 @@ public class RunnableManager implements Runnable{
         if (messages.size() != 0) {
             for (Message m :
                     messages.values()) {
-                System.out.println(m.getText());
+                log.info(m.getText());
+//                System.out.println(m.getText());
                 m.setRead(true);
                 if (m.getText().equals("Снимок сделан")) {
                     getShot = true;
