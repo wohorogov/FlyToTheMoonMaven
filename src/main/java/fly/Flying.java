@@ -17,13 +17,15 @@ public class Flying {
     private static final double EARTH_RADIUS = 6_371_300;
     private static final double MOON_RADIUS = EARTH_RADIUS * 0.273;
     private static final String BRAKE_CHECK = "BRAKE_CHECK";
+    private static final String BOOST = "BOOST";
     private static final double GRAVITATIONAL_CONSTANT;
 
     static {
         GRAVITATIONAL_CONSTANT = 6.67430 * Math.pow(10, -11);
     }
 
-    private static final double FINAL_DISTANCE = 350_000_000;
+    private static final int ERROR_RATE = 100; // Погрешность при расчете расстояния торможения ракеты
+    private static final double FINAL_DISTANCE = 350_000_000; // Расстояние до Луны
     boolean rocketOperable = true; //ракета цела
     boolean fuelIsEmpty = false; // осталось топливо
     boolean startBrake = false; //старт запуска тормозного блока
@@ -46,7 +48,7 @@ public class Flying {
         double allMass = rocket.getAllMass();
         double distance = rocket.getDistance();
 
-        double boostNow = getBoost(allMass, distance, rocketStage, "BOOST");
+        double boostNow = getBoost(allMass, distance, rocketStage, BOOST);
 
         distance += rocket.getSpeed() * time + (boostNow * Math.pow(time, 2)) / 2;
 
@@ -73,12 +75,6 @@ public class Flying {
             System.out.println("Ракета упала  на Землю!");
         }
     }
-
-    private void printInfo(Rocket rocket, double boostNow) {
-        System.out.println("Координата = " + rocket.getDistance() + ", масса = " +
-                rocket.getAllMass() + ", усорение " + boostNow + ", скорость " + rocket.getSpeed());
-    }
-
     public double getBoost(double allMass, double distance, RocketStage rocketStage, String flag) {
         double forceOfGravitationEarth = getEarthGravitation(allMass, distance);
         double forceOfGravitationMoon = getMoonGravitation(allMass, distance);
@@ -101,7 +97,7 @@ public class Flying {
 
         double brakeDistance = speed * needTimeForBrake + (boost * Math.pow(needTimeForBrake, 2)) / 2;
 
-        if (brakeDistance >= FINAL_DISTANCE - distance - 100) {// && needTimeForBrake <= rocket.getSpaceCraft().getBrakeStage().getRemainingTime())
+        if (brakeDistance >= FINAL_DISTANCE - distance - ERROR_RATE) {// && needTimeForBrake <= rocket.getSpaceCraft().getBrakeStage().getRemainingTime())
             result = true;
         }
 

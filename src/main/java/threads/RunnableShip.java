@@ -70,7 +70,7 @@ public class RunnableShip implements Runnable {
                     }
                 }
 
-                if (flying.checkStartBrake(rocket) && !flying.isStartBrake()) {//(rocket.getDistance() >= START_BRAKE_DISTANCE && !flying.isStartBrake() && rocket.getSpeed() > MAX_SPEED_LANDING) {
+                if (flying.checkStartBrake(rocket) && !flying.isStartBrake() && rocket.getSpeed() > MAX_SPEED_LANDING) {//(rocket.getDistance() >= START_BRAKE_DISTANCE && !flying.isStartBrake() && rocket.getSpeed() > MAX_SPEED_LANDING) {
                     flying.setStartBrake(true);
                     flying.setFuelIsEmpty(true);
                     rocketStage = rocketStageBrake;
@@ -93,12 +93,7 @@ public class RunnableShip implements Runnable {
                         }
                     }
                 }
-                try {
-                    sendMessage("Координата = " + rocket.getDistance() + ", масса = " +
-                            rocket.getAllMass() + ", скорость " + rocket.getSpeed());
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+//                sendFlyInfo();
             }
         }
         rocket.setFly(false);
@@ -108,6 +103,7 @@ public class RunnableShip implements Runnable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        sendFlyInfo();
     }
     public void checkRightLandingSpeed(Flying flying) throws InterruptedException {
         if (rocket.getSpeed() <= MIN_SPEED_LANDING) {
@@ -115,6 +111,7 @@ public class RunnableShip implements Runnable {
             flying.setEndBrake(true);
             flying.setRightLanding(true);
             sendMessage("Ракета вышла на правильную скорость для посадки");
+            sendFlyInfo();
         }
     }
     public double calcTimeStep(Flying flying) throws InterruptedException {
@@ -122,22 +119,30 @@ public class RunnableShip implements Runnable {
 
         if (time == 0) {
             if (!flying.isFuelIsEmpty()) {
+                sendMessage("Топливо в ступени №" + rocketStage.getNum() + " закончилось.");
                 int numRocketStage = rocketStage.getNum();
                 rocket.deleteRocketStage(numRocketStage);
                 numRocketStage++;
                 try {
                     rocketStage = rocket.getNextRocketStage(numRocketStage);
                     time = Math.min(rocketStage.getRemainingTime(), MIN_TIME);
+                    sendMessage("Запущена ступень №" + rocketStage.getNum());
+
+                    sendFlyInfo();
                 } catch (Exception e) {
                     flying.setFuelIsEmpty(true);
                     time = MIN_TIME;
                     sendMessage("Топливо в ступенях закончилось.");
+
+                    sendFlyInfo();
                 }
             } else {
                 sendMessage("Топливо в тормозном блоке закончилось, ракета осталась без топлива");
                 flying.setStartBrake(false);
                 flying.setEndBrake(true);
                 time = MIN_TIME;
+
+                sendFlyInfo();
             }
         }
         return time;
@@ -150,6 +155,16 @@ public class RunnableShip implements Runnable {
         } else {
             System.out.println("Ракета разбилась");
             flying.setRocketOperable(false);
+        }
+    }
+    private void sendFlyInfo() {
+        String flyInfo = "Пройденное расстояние = " + rocket.getDistance() + "м, масса = " +
+                rocket.getAllMass() + "кг, скорость " + rocket.getSpeed() + "м/с";
+
+        try {
+            sendMessage(flyInfo);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
     public void sendMessage(String text) throws InterruptedException {
