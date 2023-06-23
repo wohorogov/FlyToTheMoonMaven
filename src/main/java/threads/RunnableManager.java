@@ -41,11 +41,11 @@ public class RunnableManager implements Runnable{
         if (port.test()) {
             port.launch(messageService);
 
-            try {
-                t.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+//            try {
+//                t.sleep(1000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
 
             while (true) {
                 try {
@@ -54,7 +54,7 @@ public class RunnableManager implements Runnable{
                     throw new RuntimeException(e);
                 }
                 readMessages(MESSAGE_TO_ROCKET);
-
+                getFlyInfo();
                 if (!rocket.isFly()) {
                     readMessages(MESSAGE_TO_ROCKET);
                     break;
@@ -115,9 +115,16 @@ public class RunnableManager implements Runnable{
 //                System.out.println(m.getText());
                 m.setRead(true);
                 if (m.getText().equals("Снимок сделан")) {
+                    log.info(m.getText());
                     getShot = true;
                 }
             }
         }
+    }
+    private void getFlyInfo() {
+        String flyInfo = "My Log Пройденное расстояние = " + rocket.getDistance() + "м, масса = " +
+                rocket.getAllMass() + "кг, скорость " + rocket.getSpeed() + "м/с";
+
+        log.info(flyInfo);
     }
 }

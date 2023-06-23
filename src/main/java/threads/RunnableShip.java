@@ -28,7 +28,7 @@ public class RunnableShip implements Runnable {
     @Override
     public void run() {
         Flying flying = new Flying();
-
+        Thread t = Thread.currentThread();
         int numRocketStage = 1;
 
 //        try {
@@ -52,9 +52,15 @@ public class RunnableShip implements Runnable {
         double time = Math.min(rocketStage.getRemainingTime(), MIN_TIME);
 
         int numIter = 0;
-        Thread t = Thread.currentThread();
+
         while (flying.isRocketOperable() && rocket.isFly()) {
             numIter++;
+//            try {
+//                t.sleep(10);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+
             flying.calcDistance(rocket, rocketStage, time);
 
             if (flying.isRocketOperable()) {
@@ -93,7 +99,6 @@ public class RunnableShip implements Runnable {
                         }
                     }
                 }
-//                sendFlyInfo();
             }
         }
         rocket.setFly(false);
@@ -142,7 +147,7 @@ public class RunnableShip implements Runnable {
                 flying.setEndBrake(true);
                 time = MIN_TIME;
 
-                sendFlyInfo();
+//                sendFlyInfo();
             }
         }
         return time;

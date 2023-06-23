@@ -47,6 +47,12 @@ public class Rocket {
                 result += stageTest;
             }
         }
+
+        RocketStage rocketStageBrake = this.spaceCraft.getBrakeStage();
+        String stageTest = rocketStageBrake.test();
+        if (!stageTest.equals("OK"))
+            result += stageTest;
+
         if (result == null) {
             System.out.println("Тестирование ракеты выполнено успешно. Можно производить запуск.");
             return true;
@@ -56,6 +62,7 @@ public class Rocket {
             System.out.println(result);
             return false;
         }
+
     }
 
     public void printFullInfo() {

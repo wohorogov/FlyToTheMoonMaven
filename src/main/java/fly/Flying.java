@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ship.Rocket;
 import ship.stages.RocketStage;
-import threads.RunnableManager;
-import threads.RunnableShip;
 
 @Getter
 @Setter
