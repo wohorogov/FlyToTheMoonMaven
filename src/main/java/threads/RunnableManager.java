@@ -115,7 +115,6 @@ public class RunnableManager implements Runnable{
 //                System.out.println(m.getText());
                 m.setRead(true);
                 if (m.getText().equals("Снимок сделан")) {
-                    log.info(m.getText());
                     getShot = true;
                 }
             }
